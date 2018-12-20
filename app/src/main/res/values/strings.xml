@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Livelihood</string>
+    <string name="s_username">Klevie Jun R. Caseres</string>
+    <string name="s_user_type">klevmailbox04@gmail.com</string>
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
+
+    <string-array name="position">
+        <item>President</item>
+        <item>Vice President</item>
+        <item>Secretary</item>
+        <item>Member</item>
+    </string-array>
+</resources>

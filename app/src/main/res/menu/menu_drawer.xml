@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_myListing"
+            android:icon="@drawable/ic_my_listing"
+            android:title="My Listing" />
+        <item
+            android:id="@+id/nav_addNew"
+            android:icon="@drawable/ic_add_person"
+            android:title="Add New" />
+    </group>
+    <item android:title="Extras">
+        <menu>
+            <item
+                android:id="@+id/nav_export_pdf"
+                android:icon="@drawable/ic_export_pdf"
+                android:title="Export to PDF" />
+            <item
+                android:id="@+id/nav_logOut"
+                android:icon="@drawable/ic_logout"
+                android:title="Logout" />
+        </menu>
+    </item>
+</menu>
