@@ -29,4 +29,18 @@ public class PersonDetails extends AppCompatActivity {
 
 
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("com.klevie.livelihood.PERSON_ID", person_id);
+
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        person_id = (int) savedInstanceState.getSerializable("com.klevie.livelihood.PERSON_ID");
+
+        super.onRestoreInstanceState(savedInstanceState);
+    }
 }

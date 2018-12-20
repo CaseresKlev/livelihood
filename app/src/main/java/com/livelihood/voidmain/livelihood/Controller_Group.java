@@ -14,10 +14,12 @@ import java.util.List;
 
 public class Controller_Group extends RecyclerView.Adapter {
 
+
     private List<Group> group_list;
 
     public Controller_Group(List<Group> group_list) {
         this.group_list = group_list;
+        //Toast.makeText(, "", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -41,7 +43,7 @@ public class Controller_Group extends RecyclerView.Adapter {
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
+        int group_id;
         TextView textView_groupID, textView_groupName, textView_brgy, textView_city, textView_groupCount;
 
         public ViewHolder(final View itemView) {
@@ -58,7 +60,7 @@ public class Controller_Group extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     Context context = itemView.getContext();
-                    Toast.makeText(context, textView_groupID.getText().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, group_id + "", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -66,11 +68,12 @@ public class Controller_Group extends RecyclerView.Adapter {
         }
 
         public void bindView(int i) {
-            textView_groupID.setText(group_list.get(i).getId());
+            group_id = group_list.get(i).getId();
+            textView_groupID.setText("ID: " + group_list.get(i).getId());
             textView_groupName.setText(group_list.get(i).getGroup_name());
             textView_brgy.setText(group_list.get(i).getBrgy());
             textView_city.setText(group_list.get(i).getCity());
-            textView_groupCount.setText(group_list.get(i).getMembersCount());
+            textView_groupCount.setText("Current Members: " +group_id);
         }
     }
 }

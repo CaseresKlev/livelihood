@@ -3,28 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:layout_marginRight="4dp"
+    android:layout_marginLeft="4dp"
+    android:layout_marginBottom="4dp"
     android:paddingBottom="@dimen/activity_horizontal_margin"
     android:background="@drawable/border_bottom">
 
     <LinearLayout
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_gravity="bottom">
+        android:layout_gravity="top">
 
         <ImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:src="@drawable/ic_group_black_24dp"
             android:tint="#87898e"
             android:scaleType="fitXY"
+            android:adjustViewBounds="true"
             />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ID: 1075"
             android:maxLines="1"
-            android:textStyle="bold"
             android:id="@+id/group_id"
             android:textAlignment="center"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
@@ -35,7 +38,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_gravity="top"
         android:orientation="vertical"
         android:layout_marginLeft="@dimen/activity_horizontal_margin">
 
@@ -53,7 +56,6 @@
             android:layout_height="wrap_content"
             android:text="Purok -1, Apo Macote"
             android:maxLines="1"
-            android:textStyle="bold"
             android:id="@+id/group_brgy"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
 
@@ -62,7 +64,6 @@
             android:layout_height="wrap_content"
             android:text="Malaybalay City"
             android:maxLines="1"
-            android:textStyle="bold"
             android:id="@+id/group_city"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
 
@@ -71,7 +72,6 @@
             android:layout_height="wrap_content"
             android:text="Current members: 8"
             android:maxLines="1"
-            android:textStyle="bold"
             android:id="@+id/group_member_count"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
         />

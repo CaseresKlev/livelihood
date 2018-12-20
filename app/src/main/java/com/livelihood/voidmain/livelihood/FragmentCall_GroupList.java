@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class FragmentCall_GroupList extends Fragment {
     public FragmentCall_GroupList() {
         groupList = new ArrayList<>();
     }
-
+    ////
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -38,9 +39,11 @@ public class FragmentCall_GroupList extends Fragment {
         recyclerView.setAdapter(groupController);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-
-
+        //LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        //layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+              recyclerView.setLayoutManager(layoutManager);
+        /*
+*/
         return view;
     }
 
