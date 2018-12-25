@@ -11,6 +11,7 @@
 
 
     <ImageView
+        android:id="@+id/imageView_person_icon"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:src="@drawable/ic_person"
@@ -25,7 +26,7 @@
         android:layout_marginBottom="12dp">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:textStyle="bold"
@@ -35,7 +36,7 @@
             />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Malaybalay City Bukidnon"
             android:maxLines="1"
@@ -44,7 +45,7 @@
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Group Id: 123456"
             android:maxLines="1"
@@ -54,5 +55,7 @@
             android:textSize="12sp"/>
 
     </LinearLayout>
+
+
 
 </LinearLayout>

@@ -52,7 +52,7 @@ public class Controler_Person extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     String temp = txt_person_id.getText().toString();
-                    String[] arr = temp.split("Group ID: ");
+                    String[] arr = temp.split("PERSON ID: ");
                     person_id = Integer.parseInt(arr[1]);
                     Context context = v.getContext();
                     Intent intent = new Intent(context, PersonDetails.class);
@@ -67,7 +67,7 @@ public class Controler_Person extends RecyclerView.Adapter {
         public void bindView(int position){
             mName.setText(personList.get(position).getName());
             mAddress.setText(personList.get(position).getAddress());
-            txt_person_id.setText("Group ID: " + personList.get(position).getPersonID());
+            txt_person_id.setText("PERSON ID: " + personList.get(position).getPersonID());
             //group_id = personList.get(position).getGroupID();
         }
 

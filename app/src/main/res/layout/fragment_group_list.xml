@@ -4,23 +4,65 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
+        android:id="@+id/panel_filter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:elevation="10dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Filter: "/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Filter: "/>
+        android:orientation="horizontal"
+        android:elevation="10dp"
+        android:visibility="gone">
 
-        <TextView
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Filter: "/>
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filter City:"
+                android:textSize="18sp"/>
+            <Spinner
+                android:layout_width="130dp"
+                android:id="@+id/spinner_choose_city"
+                android:layout_height="wrap_content"
+                android:textSize="18sp">
+            </Spinner>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filter Barangay:"
+                android:textSize="18sp"/>
+            <Spinner
+                android:id="@+id/spinner_choose_brgy"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content">
+            </Spinner>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filter Purok:"
+                android:textSize="18sp"/>
+            <Spinner
+                android:layout_width="130dp"
+                android:id="@+id/spinner_choose_purok"
+                android:layout_height="wrap_content">
+            </Spinner>
+        </LinearLayout>
+
+
+
     </LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/groupListRecycleView"

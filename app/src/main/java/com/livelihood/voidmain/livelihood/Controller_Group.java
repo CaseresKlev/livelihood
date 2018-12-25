@@ -1,6 +1,7 @@
 package com.livelihood.voidmain.livelihood;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ public class Controller_Group extends RecyclerView.Adapter {
 
 
     private List<Group> group_list;
+    int group_id;
 
     public Controller_Group(List<Group> group_list) {
         this.group_list = group_list;
@@ -43,7 +45,7 @@ public class Controller_Group extends RecyclerView.Adapter {
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        int group_id;
+
         TextView textView_groupID, textView_groupName, textView_brgy, textView_city, textView_groupCount;
 
         public ViewHolder(final View itemView) {
@@ -59,8 +61,16 @@ public class Controller_Group extends RecyclerView.Adapter {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //group_id =
                     Context context = itemView.getContext();
-                    Toast.makeText(context, group_id + "", Toast.LENGTH_SHORT).show();
+                    String temp = textView_groupID.getText().toString();
+                    String[] arr = temp.split("ID: ");
+                    group_id = Integer.parseInt(arr[1]);
+                    //Toast.makeText(context, group_id + "", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, AddNew.class);
+                    intent.putExtra("com.klevie.livelihood.GROUP_ID", group_id);
+                    intent.putExtra("com.klevie.livelihood.USER_ID", 5001);
+                    context.startActivity(intent);
                 }
             });
 

@@ -11,4 +11,19 @@
         <item>Secretary</item>
         <item>Member</item>
     </string-array>
+
+    <string-array name="tshirtSizes">
+        <item>XS</item>
+        <item>S</item>
+        <item>M</item>
+        <item>L</item>
+        <item>XL</item>
+    </string-array>
+
+    <string-array name="eduationAttainment">
+        <item>Elementary</item>
+        <item>HighSchool</item>
+        <item>College</item>
+        <item>College Draduate</item>
+    </string-array>
 </resources>

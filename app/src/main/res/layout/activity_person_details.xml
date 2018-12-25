@@ -4,266 +4,395 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PersonDetails">
-    
+    tools:context=".PersonDetails"
+    android:orientation="horizontal"
+    android:background="#fff">
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="350dp">
-
-
-    </LinearLayout>
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="#1a0ea8"
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:background="#ff7734"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
 
-    </android.support.constraint.ConstraintLayout>
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/border_bottom"
         android:src="@drawable/ic_person"
         android:tint="#000000"
-        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <ImageView
+        android:id="@+id/imageView_delete"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/ic_delete"
+        android:tint="#000000"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintHorizontal_bias="0.652"
+        app:layout_constraintStart_toEndOf="@+id/imageView_edit"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/imageView_edit"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/ic_edit"
+        android:tint="#000000"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+            android:id="@+id/details_textView_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:text="Klevie Jun R. Caseres"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text="Klevie Jun R. Caseres"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:orientation="horizontal"
-        android:paddingTop="4dp"
-        android:paddingBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toBottomOf="@+id/details_textView_name">
 
-        <TableLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
+            android:paddingTop="4dp"
+            android:paddingBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView">
 
-            <TableRow android:paddingBottom="4dp">
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textView1"
-                    android:layout_width="45dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="Position:" />
+                <TableRow
+                    android:paddingBottom="4dp"
+                    android:background="@drawable/border_bottom">
 
-                <TextView
-                    android:id="@+id/details_textView_Position"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="President" />
-            </TableRow>
+                    <TextView
+                        android:id="@+id/textView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:text="Position:" />
 
-            <TableRow android:paddingBottom="4dp">
+                    <TextView
+                        android:id="@+id/details_textView_Position"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textSize="18sp"
+                        android:text="" />
+                </TableRow>
 
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="45dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="Group:" />
+                <TableRow
+                    android:paddingBottom="4dp"
+                    android:background="@drawable/border_bottom">
 
-                <TextView
-                    android:id="@+id/details_textView_Group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="Group 2" />
-            </TableRow>
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:text="Group:" />
 
-            <TableRow android:paddingBottom="4dp">
+                    <TextView
+                        android:id="@+id/details_textView_Group"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textSize="18sp"
+                        android:text="" />
+                </TableRow>
 
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="45dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="Contact:" />
+                <TableRow
+                    android:paddingBottom="4dp"
+                    android:background="@drawable/border_bottom">
 
-                <TextView
-                    android:id="@+id/details_textView_Contact"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="09656744977" />
-            </TableRow>
+                    <TextView
+                        android:id="@+id/textView12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:text="Address:" />
 
-            <TableRow android:paddingBottom="4dp">
+                    <TextView
+                        android:id="@+id/details_textView_Address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textSize="18sp"
+                        android:text="" />
+                </TableRow>
 
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="45dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="Birthday:" />
+                <TableRow android:paddingBottom="4dp"
+                    android:background="@drawable/border_bottom">
 
-                <TextView
-                    android:id="@+id/details_textView_BirthDay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="May 21, 1993" />
-            </TableRow>
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:text="Contact:" />
 
-            <TableRow android:paddingBottom="4dp">
-
-                <TextView
-                    android:id="@+id/textView5"
-                    android:layout_width="45dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="Membership Date:" />
-
-                <TextView
-                    android:id="@+id/details_textView_Membership"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="Group 2" />
-            </TableRow>
-
-            <TableRow android:paddingBottom="4dp">
-
-                <TextView
-                    android:id="@+id/textView6"
-                    android:layout_width="45dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="Spouse:" />
-
-                <TextView
-                    android:id="@+id/details_textView_Spouse"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="Flordeliza Petilo" />
-            </TableRow>
-
-            <TableRow android:paddingBottom="4dp">
-
-                <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="45dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="Spouse:" />
-
-                <TextView
-                    android:id="@+id/details_textView_Education"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="High School Graduate" />
-            </TableRow>
-
-            <TableRow android:paddingBottom="4dp">
-
-                <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="45dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="# of Family Members:" />
-
-                <TextView
-                    android:id="@+id/details_textView_numFam"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="8" />
-            </TableRow>
-
-            <TableRow android:paddingBottom="4dp">
-
-                <TextView
-                    android:id="@+id/textView9"
-                    android:layout_width="45dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="# of Voters in the Family:" />
-
-                <TextView
-                    android:id="@+id/details_textView_numVoters"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="8" />
-            </TableRow>
-
-            <TableRow android:paddingBottom="4dp">
-
-                <TextView
-                    android:id="@+id/textView10"
-                    android:layout_width="45dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="T-SHirt Size" />
-
-                <TextView
-                    android:id="@+id/details_textView_tshirtSize"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="M" />
-            </TableRow>
-
-            <TableRow android:paddingBottom="4dp">
-
-                <TextView
-                    android:id="@+id/textView11"
-                    android:layout_width="45dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="Added by:" />
-
-                <TextView
-                    android:id="@+id/details_textView_AddedBy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="Jezeer Louie Rubio" />
-            </TableRow>
+                    <TextView
+                        android:id="@+id/details_textView_Contact"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textSize="18sp"
+                        android:text="" />
+                </TableRow>
 
 
-        </TableLayout>
+
+                <TableRow
+                    android:paddingBottom="4dp"
+                    android:background="@drawable/border_bottom">
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:text="Birthday:" />
+
+                    <TextView
+                        android:id="@+id/details_textView_BirthDay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textSize="18sp"
+                        android:text="" />
+                </TableRow>
+
+                <TableRow
+                    android:paddingBottom="4dp"
+                    android:background="@drawable/border_bottom">
+
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:text="Educational Attainment:" />
+
+                    <TextView
+                        android:id="@+id/details_textView_Education"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textSize="18sp"
+                        android:text="" />
+                </TableRow>
+
+                <TableRow
+                    android:paddingBottom="4dp"
+                    android:background="@drawable/border_bottom">
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:text="Membership Date:" />
+
+                    <TextView
+                        android:id="@+id/details_textView_Membership"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textSize="18sp"
+                        android:text="" />
+                </TableRow>
+
+                <TableRow
+                    android:paddingBottom="4dp"
+                    android:background="@drawable/border_bottom">
+
+                    <TextView
+                        android:id="@+id/textView6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:text="Spouse:" />
+
+                    <TextView
+                        android:id="@+id/details_textView_Spouse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text=""
+                        android:textSize="18sp"/>
+                </TableRow>
+
+                <TableRow
+                    android:paddingBottom="4dp"
+                    android:background="@drawable/border_bottom">
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:text="# of Family Members:" />
+
+                    <TextView
+                        android:id="@+id/details_textView_numFam"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textSize="18sp"
+                        android:text="" />
+                </TableRow>
+
+                <TableRow
+                    android:paddingBottom="4dp"
+                    android:background="@drawable/border_bottom">
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:text="# of Voters in the Family:" />
+
+                    <TextView
+                        android:id="@+id/details_textView_numVoters"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textSize="18sp"
+                        android:text="" />
+                </TableRow>
+
+                <TableRow
+                    android:paddingBottom="4dp"
+                    android:background="@drawable/border_bottom">
+
+                    <TextView
+                        android:id="@+id/textView10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:text="T-Shirt Size" />
+
+                    <TextView
+                        android:id="@+id/details_textView_tshirtSize"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textSize="18sp"
+                        android:text="" />
+                </TableRow>
+
+                <TableRow
+                    android:paddingBottom="4dp"
+                    android:background="@drawable/border_bottom">
+
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:text="Added by:" />
+
+                    <TextView
+                        android:id="@+id/details_textView_AddedBy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textSize="18sp"
+                        android:text="" />
+                </TableRow>
+
+                <TableRow
+                    android:paddingBottom="4dp"
+                    android:background="@drawable/border_bottom">
+
+                    <TextView
+                        android:id="@+id/textView13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:text="Sync Status:" />
+
+                    <TextView
+                        android:id="@+id/details_textView_syncstatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textSize="18sp"
+                        android:text="" />
+                </TableRow>
 
 
-    </ScrollView>
+            </TableLayout>
+
+
+        </ScrollView>
+
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

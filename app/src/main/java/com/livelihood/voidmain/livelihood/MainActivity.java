@@ -13,12 +13,24 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, addNewListing.OnDbOperationListener {
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
 
     //this will be the list to be pass in the adopter since it is needed
@@ -31,6 +43,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private  int selectedFragment = 0;
     private  boolean hasSelectedNav=false;
     Fragment fragment;
+    RequestQueue requestQueue;
+    DB_Helper db_helper;
+    SQLiteDatabase db;
+    private boolean isLoaded = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,37 +76,91 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 hasSelectedNav = false;
             }
         };
-        Intent intent;
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        selectedFragment = 1;
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new FragmentCall_MyListing()).commit();
-        nav_view.setCheckedItem(R.id.nav_myListing);
-
-        DB_Helper db_helper = new DB_Helper(this);
-        SQLiteDatabase db = null;
-        /* */
-        //db_helper.addGroup(1, "Group 2", "Purok-2, Apo Macote Malaybalay City", db);
-
-        Cursor cursor = db_helper.getGroup();
-        StringBuffer sb = new StringBuffer();
-        sb.append("data: \n");
-        if(cursor.getCount()>0){
-
-            while (cursor.moveToNext()){
-
-                sb.append("Group ID: " + cursor.getInt(0) + "\n");
-                sb.append("Group Name: " + cursor.getString(1) + "\n");
-                sb.append("Group Address: " + cursor.getString(2) + "\n");
-            }
-
-
+        if(!isLoaded) {
+            selectedFragment = 1;
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new FragmentCall_MyListing()).commit();
+            nav_view.setCheckedItem(R.id.nav_myListing);
         }
-        //Toast.makeText(this, sb.toString(), Toast.LENGTH_LONG).show();
+
+
+        db_helper = new DB_Helper(this);
+        db = db_helper.getWritableDatabase();
+        requestQueue  =  Volley.newRequestQueue(this);
+
+
+        if(!isLoaded){
+            getGroupFromWeb();
+        }
+
+        Log.d("OnCreateIsLoaded", isLoaded + " " + selectedFragment);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("com.klevie.livelihood.SELECTED_FRAGMENT", selectedFragment);
+        outState.putBoolean("com.klevie.livelihood.ISLOADED", isLoaded);
+        Log.d("OnSavedIsLoaded", isLoaded + " " + selectedFragment);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        //person_id = (int) savedInstanceState.getSerializable("com.klevie.livelihood.PERSON_ID");
+        selectedFragment = (int) savedInstanceState.getSerializable("com.klevie.livelihood.SELECTED_FRAGMENT");
+        isLoaded = (boolean) savedInstanceState.getSerializable("com.klevie.livelihood.ISLOADED");
+        Log.d("OnrestoreIsLoaded", isLoaded + " " + selectedFragment);
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    private void getGroupFromWeb() {
+        Log.d("getGroupFromWebFN", "From: parser on main");
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, APPLICATION_SERVER.getGroupURL, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("group");
+                            //setJson(j);
+
+                            for(int i=0; i<jsonArray.length(); i++){
+                                JSONObject data = jsonArray.getJSONObject(i);
+
+                                String id =  data.getString("group_id");
+                                String name = data.getString("group_name");
+                                String purok = data.getString("purok");
+                                String brgy = data.getString("barangay");
+                                String city = data.getString("city");
+
+                                db_helper.addGroup(Integer.parseInt(id), name, purok, brgy, city, db);
+                            }
+
+                            db_helper.closeDB(db);
+
+
+                            Log.d("Successful on try", "From: parser on main");
+                            //
+                        } catch (JSONException e) {
+                            Log.d("JSONException", e.getMessage());
+                            //e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                //Log.d("errorResponce", error.getMessage());
+                error.printStackTrace();
+            }
+        });
+        isLoaded = true;
+        requestQueue.add(jsonRequest);
+
+        // Toast.makeText(context, "length of Jason Array: " + jsonArray.length(), Toast.LENGTH_SHORT).show();
+    }
 
 
 
@@ -111,14 +182,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (menuItem.getItemId()){
             case R.id.nav_myListing:
                 selectedFragment = 1;
-                fragment = new FragmentCall_MyListing();
+                //fragment = new FragmentCall_MyListing();
                 hasSelectedNav = true;
+                loadFragment();
                 break;
             case R.id.nav_addNew:
                 selectedFragment = 2;
                 //fragment = new addNewListing();
-                fragment = new FragmentCall_GroupList();
+                //fragment = new FragmentCall_GroupList();
                 hasSelectedNav = true;
+                loadFragment();
+                //Intent intent = new Intent(this, R.layout.activity_add_new)
                 break;
             case R.id.nav_export_pdf:
                 Toast.makeText(this, "This is Export to pdf fn.", Toast.LENGTH_SHORT).show();
@@ -134,6 +208,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    private void loadFragment(){
+        if(selectedFragment==1){
+            fragment = new FragmentCall_MyListing();
+        }else if(selectedFragment==2){
+            fragment = new FragmentCall_GroupList();
+        }
+
+
+    }
+
     private void hideDrawer() {
         if(hasSelectedNav){
             //dialog = ProgressDialog.show(this, "Fetching", "Please Wait...", true);
@@ -146,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    @Override
+  /*  @Override
     public void dbOperation(int method) {
         switch (method){
             case 1:
@@ -154,6 +238,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
     }
+    */
 
 
 
