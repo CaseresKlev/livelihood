@@ -5,7 +5,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
+import java.net.URL;
 
 public class DB_Helper extends SQLiteOpenHelper {
 
@@ -45,9 +54,12 @@ public class DB_Helper extends SQLiteOpenHelper {
 
     public static String DROP_TABLE_PERSON = "DROP TABLE IF EXISTS " + CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME;
     public static String DROP_TABLE_GROUP = "DROP TABLE IF EXISTS " + CONTRACT_DB_TABLES.Table_GROUP.TABLE_NAME;
+    Context context;
+
 
     public DB_Helper(Context context){
         super(context,DB_NAME,null,DB_VERSION);
+        this.context = context;
         Log.d("Database Creation", "Database Created..");
     }
 
@@ -79,8 +91,8 @@ public class DB_Helper extends SQLiteOpenHelper {
         contentValues.put(CONTRACT_DB_TABLES.Table_GROUP.GROUP_CITY, city);
 
 
-        long lastInsertId = db.insert(CONTRACT_DB_TABLES.Table_GROUP.TABLE_NAME, null, contentValues);
-
+        //long lastInsertId = db.insert(CONTRACT_DB_TABLES.Table_GROUP.TABLE_NAME, null, contentValues);
+        long lastInsertId = db.insertWithOnConflict(CONTRACT_DB_TABLES.Table_GROUP.TABLE_NAME, null, contentValues, SQLiteDatabase.CONFLICT_IGNORE);
 
         if(lastInsertId!=-1){
             Log.d("InsertGroup", "Group Inserted");
@@ -208,7 +220,59 @@ public class DB_Helper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public SQLiteDatabase getWritableDB(){
-        return this.getWritableDatabase();
+
+    public boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
+    /*
+    public boolean isHostReachable(String serverAddress, int serverTCPport, int timeoutMS){
+        boolean connected = false;
+        Socket socket;
+        try {
+            socket = new Socket();
+            SocketAddress socketAddress = new InetSocketAddress(serverAddress, serverTCPport);
+            socket.connect(socketAddress, timeoutMS);
+            if (socket.isConnected()) {
+                connected = true;
+                socket.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            socket = null;
+        }
+        return connected;
+    }
+
+    public boolean isReachable() {
+        // First, check we have any sort of connectivity
+        final ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final NetworkInfo netInfo = connMgr.getActiveNetworkInfo();
+        boolean isReachable = false;
+
+        if (netInfo != null && netInfo.isConnected()) {
+            // Some sort of connection is open, check if server is reachable
+            try {
+                URL url = new URL("http://www.google.com");
+                //URL url = new URL("http://10.0.2.2");
+                HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
+                urlc.setRequestProperty("User-Agent", "Android Application");
+                urlc.setRequestProperty("Connection", "close");
+                urlc.setConnectTimeout(10 * 1000);
+                urlc.connect();
+                isReachable = (urlc.getResponseCode() == 200);
+            } catch (IOException e) {
+                //Log.e(TAG, e.getMessage());
+            }
+        }
+
+        return isReachable;
+    }
+
+*/
+
+
 }

@@ -3,6 +3,7 @@ package com.livelihood.voidmain.livelihood;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,8 @@ public class AddNew extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         //group_id = (int) savedInstanceState.getSerializable("com.klevie.livelihood.GROUP_ID");
        // userId = (int) savedInstanceState.getSerializable("com.klevie.livelihood.USER_ID");
 
@@ -72,6 +75,12 @@ public class AddNew extends AppCompatActivity implements View.OnClickListener {
         adapter = new ArrayAdapter<>(this, R.layout.custom_spinner, getResources().getStringArray(R.array.eduationAttainment));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_attainment.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 
     @Override
@@ -122,7 +131,7 @@ public class AddNew extends AppCompatActivity implements View.OnClickListener {
         outState.putInt("com.klevie.livelihood.GROUP_ID", group_id);
         outState.putInt("com.klevie.livelihood.USER_ID", userId);
 
-        name = inputName.getEditText().getText() .toString().trim();
+      /*  name = inputName.getEditText().getText() .toString().trim();
         birthday = bday.getEditText().getText().toString().trim();
         strSpouse = spouse.getEditText().getText().toString().trim();
         strContact = contact.getEditText().getText().toString().trim();
@@ -144,7 +153,7 @@ public class AddNew extends AppCompatActivity implements View.OnClickListener {
         outState.putString("com.klevie.livelihood.INPUTED_NUMFAM", strNumOfFam);
         outState.putString("com.klevie.livelihood.INPUTED_NUMVOTERS", strNumVoters);
 
-
+        */
         super.onSaveInstanceState(outState);
     }
 
@@ -153,7 +162,7 @@ public class AddNew extends AppCompatActivity implements View.OnClickListener {
         group_id = (int) savedInstanceState.getSerializable("com.klevie.livelihood.GROUP_ID");
         userId = (int) savedInstanceState.getSerializable("com.klevie.livelihood.USER_ID");
 
-        inputName.getEditText().setText((String) savedInstanceState.getSerializable("com.klevie.livelihood.INPUTED_NAME"));
+      /*  inputName.getEditText().setText((String) savedInstanceState.getSerializable("com.klevie.livelihood.INPUTED_NAME"));
         bday.getEditText().setText((String) savedInstanceState.getSerializable("com.klevie.livelihood.INPUTED_BIRTHDAY"));
         spouse.getEditText().setText((String) savedInstanceState.getSerializable("com.klevie.livelihood.INPUTED_SPOUSE"));
         contact.getEditText().setText((String) savedInstanceState.getSerializable("com.klevie.livelihood.INPUTED_CONTACT"));
@@ -163,6 +172,9 @@ public class AddNew extends AppCompatActivity implements View.OnClickListener {
         spinner_tshirtSize.setSelection((int) savedInstanceState.getSerializable("com.klevie.livelihood.INPUTED_TSHIRT"));
         numFamilyMember.getEditText().setText((String) savedInstanceState.getSerializable("com.klevie.livelihood.INPUTED_NUMFAM"));
         numOfVoters.getEditText().setText((String) savedInstanceState.getSerializable("com.klevie.livelihood.INPUTED_NUMVOTERS"));
+        */
+
+
         super.onRestoreInstanceState(savedInstanceState);
     }
 }

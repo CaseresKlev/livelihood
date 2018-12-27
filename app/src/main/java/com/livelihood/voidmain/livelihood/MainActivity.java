@@ -1,9 +1,9 @@
 package com.livelihood.voidmain.livelihood;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.database.Cursor;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -16,19 +16,23 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
@@ -43,10 +47,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private  int selectedFragment = 0;
     private  boolean hasSelectedNav=false;
     Fragment fragment;
-    RequestQueue requestQueue;
+    private RequestQueue requestQueue;
     DB_Helper db_helper;
     SQLiteDatabase db;
     private boolean isLoaded = false;
+    public boolean connected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +101,93 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getGroupFromWeb();
         }
 
-        Log.d("OnCreateIsLoaded", isLoaded + " " + selectedFragment);
+       /* if(db_helper.isNetworkAvailable()
+                && db_helper.isHostReachable(APPLICATION_SERVER.getGroupURL, 80, 5000)){
+            Log.d("NetworkState", "Netwok is available and Connected");
+        }else{
+            Log.d("NetworkState", "Netwok is NOT available and NOT Connected");
+        }*/
+
+        //Log.d("IsServerIsReachable", new ConnectToServer().execute() + "");
+        //new ConnectToServer(this).execute();
+        boolean networkAvailable = db_helper.isNetworkAvailable();
+        if(!networkAvailable){
+            MessageDialog dialog = MessageDialog.newInstance("Warning",
+                    "No network connection Available! Your data is volunerable for curruption.", 1);
+            dialog.show(getSupportFragmentManager(), "MessageDialog");
+        }else{
+            new CheckConnection(this, requestQueue).execute();
+        }
+        //Toast.makeText(this, db_helper.isNetworkAvailable() + "", Toast.LENGTH_SHORT).show();
+
+        db_helper.closeDB(db);
+
+    }
+
+    public class CheckConnection extends AsyncTask<Void, Void, Void> {
+
+        Context context;
+        private RequestQueue requestQueue;
+        public CheckConnection(Context context, RequestQueue requestQueue) {
+            this.context = context;
+            this.requestQueue = requestQueue;
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            StringRequest request = new StringRequest(Request.Method.GET,APPLICATION_SERVER.pingTest,
+                    new Response.Listener<String>(){
+
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                String status = jsonObject.getString("connectionTest").toString();
+                                Log.d("ResponceFromServer", "!" + status + "!");
+                                if(!(status.equals("OK"))){
+//                                    connected = true;
+//                                    Log.d("ResponseStatus", "Connected");
+                                    MessageDialog dialog = MessageDialog.newInstance("Success", "Good! You are Connected to the Applicatio Server!", 1);
+                                    dialog.show(getSupportFragmentManager(), "MessageDialog");
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            //Toast.makeText(MainActivity.this, (connected ? "Connected" : "Not Connected"), Toast.LENGTH_LONG).show();
+                        }
+                    }, new Response.ErrorListener(){
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    connected = false;
+                    Log.d("ResponceFromServer", "ERROR");
+                    error.printStackTrace();
+                }
+            })
+            {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map <String, String> params = new HashMap<>();
+                    params.put("PassKey", "com.klevie.livelihood");
+                    return super.getParams();
+                }
+            };
+
+            this.requestQueue.add(request);
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            //Toast.makeText(MainActivity.this, (connected ? "Connected" : "Not Connected"), Toast.LENGTH_LONG).show();
+        }
+
     }
 
     @Override
