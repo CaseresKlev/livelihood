@@ -5,13 +5,14 @@ public class Person {
     private String name;
     private String address;
     private int group_id;
-    private int person_id;
+    private int person_id, sync_status;
 
-    public Person(int person_id, String name, String address, int group_id) {
+    public Person(int person_id, String name, String address, int group_id, int sync_status) {
         this.person_id = person_id;
         this.name = name;
         this.address = address;
         this.group_id = group_id;
+        this.sync_status = sync_status;
     }
 
     public String getName() {
@@ -29,4 +30,6 @@ public class Person {
     public int getPersonID(){
         return person_id;
     }
+
+    public int getSyncStatus(){return  sync_status;}
 }

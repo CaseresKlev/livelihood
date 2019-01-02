@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -18,41 +20,63 @@
         android:tint="#87898e"
         android:scaleType="fitXY"
         />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="12dp">
+        android:layout_marginBottom="12dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <TextView
+                android:id="@+id/textView_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="Klevie Jun R. Caseres"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textStyle="bold"
+                android:layout_weight="80"/>
+
+            <ImageView
+                android:id="@+id/imageView_sync_status"
+                android:layout_width="30dp"
+                android:layout_height="20dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="5dp"
+                android:layout_weight="20"
+                android:src="@drawable/warning"
+                android:scaleType="fitCenter"
+                />
+
+        </LinearLayout>
+
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:textStyle="bold"
-            android:text="Klevie Jun R. Caseres"
-            android:id="@+id/textView_name"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Malaybalay City Bukidnon"
-            android:maxLines="1"
             android:id="@+id/textView_address"
-            android:textColor="#b1b3b8"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Group Id: 123456"
             android:maxLines="1"
-            android:id="@+id/textView_group_id"
-            android:textColor="#b1b3b8"
+            android:text="Malaybalay City Bukidnon"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            android:textSize="12sp"/>
+            android:textColor="#b1b3b8" />
+
+        <TextView
+            android:id="@+id/textView_group_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="Group Id: 123456"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="#b1b3b8"
+            android:textSize="12sp" />
 
     </LinearLayout>
 

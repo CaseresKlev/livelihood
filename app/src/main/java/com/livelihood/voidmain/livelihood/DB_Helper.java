@@ -116,8 +116,6 @@ public class DB_Helper extends SQLiteOpenHelper {
                              String date_added, int added_by, String web_id, String remarks,
                              SQLiteDatabase db){
 
-
-        db = this.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(CONTRACT_DB_TABLES.Table_Person.PERSON_NAME, name);
         contentValues.put(CONTRACT_DB_TABLES.Table_Person.PERSON_BIRTHDATE, birthday);
@@ -135,7 +133,10 @@ public class DB_Helper extends SQLiteOpenHelper {
         contentValues.put(CONTRACT_DB_TABLES.Table_Person.PERSON_ADDED_BY, added_by);
         contentValues.put(CONTRACT_DB_TABLES.Table_Person.PERSON_WEB_ID, web_id);
         contentValues.put(CONTRACT_DB_TABLES.Table_Person.PERSON_REMARKS, remarks);
-        long lastInsertId = db.insert(CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME, null, contentValues);
+
+        long lastInsertId;
+
+        lastInsertId = db.insert(CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME, null, contentValues);
 
         StringBuffer sb = new StringBuffer();
         sb.append("Name: " + name + "\n");
@@ -165,7 +166,52 @@ public class DB_Helper extends SQLiteOpenHelper {
        //return false;
     }
 
-    public Cursor getPerson(int person_id, SQLiteDatabase db){
+    public boolean editPerson(long id, String name, String birthday, String contact, String attainment,
+                              String spouse, int family_member, int family_voters, String tshirt_size,
+                              String position, int group_id, int sync_status, String sync_action,
+                              String date_added, int added_by, String web_id, String remarks,
+                              SQLiteDatabase db){
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(CONTRACT_DB_TABLES.Table_Person.PERSON_NAME, name);
+        contentValues.put(CONTRACT_DB_TABLES.Table_Person.PERSON_BIRTHDATE, birthday);
+        contentValues.put(CONTRACT_DB_TABLES.Table_Person.PERSON_CONTACT, contact);
+        contentValues.put(CONTRACT_DB_TABLES.Table_Person.PERSON_ATTAINMENT, attainment);
+        contentValues.put(CONTRACT_DB_TABLES.Table_Person.PERSON_SPOUSE, spouse);
+        contentValues.put(CONTRACT_DB_TABLES.Table_Person.PERSON_NUMBER_FAMILY, family_member);
+        contentValues.put(CONTRACT_DB_TABLES.Table_Person.PERSON_NUMBER_VOTERS, family_voters);
+        contentValues.put(CONTRACT_DB_TABLES.Table_Person.PERSON_SHIRT_SIZE, tshirt_size);
+        contentValues.put(CONTRACT_DB_TABLES.Table_Person.PERSON_POSITION, position);
+        contentValues.put(CONTRACT_DB_TABLES.Table_Person.PERSON_GROUP_ID, group_id);
+        contentValues.put(CONTRACT_DB_TABLES.Table_Person.PERSON_SYNC_STATUS, sync_status);
+
+        if(web_id.equals("")){
+            contentValues.put(CONTRACT_DB_TABLES.Table_Person.PERSON_SYNC_ACTION,
+                    CONTRACT_DB_TABLES.SYNC_ACTION.ACTION_ADD);
+        }else{
+            contentValues.put(CONTRACT_DB_TABLES.Table_Person.PERSON_SYNC_ACTION,
+                    CONTRACT_DB_TABLES.SYNC_ACTION.ACTION_EDIT);
+        }
+
+        contentValues.put(CONTRACT_DB_TABLES.Table_Person.PERSON_ADDED_DATE, date_added);
+        contentValues.put(CONTRACT_DB_TABLES.Table_Person.PERSON_ADDED_BY, added_by);
+        contentValues.put(CONTRACT_DB_TABLES.Table_Person.PERSON_WEB_ID, web_id);
+        contentValues.put(CONTRACT_DB_TABLES.Table_Person.PERSON_REMARKS, remarks);
+
+        long lastInsertId;
+
+        lastInsertId = db.update(CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME, contentValues,
+                CONTRACT_DB_TABLES.Table_Person.PERSON_ID + " = " + id, null);
+
+        if(lastInsertId>0){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+    public Cursor getPerson(long person_id, SQLiteDatabase db){
 
         String sql = "Select "
                 + CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME + "." + CONTRACT_DB_TABLES.Table_Person.PERSON_ID + " AS person_id,\n"
@@ -184,7 +230,9 @@ public class DB_Helper extends SQLiteOpenHelper {
                 + CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME + "." + CONTRACT_DB_TABLES.Table_Person.PERSON_NUMBER_VOTERS + " As person_num_voters,\n"
                 + CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME + "." + CONTRACT_DB_TABLES.Table_Person.PERSON_SHIRT_SIZE + " AS person_shirt_size,\n"
                 + CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME + "." + CONTRACT_DB_TABLES.Table_Person.PERSON_ADDED_BY + " AS person_added_by,\n"
-                + CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME + "." + CONTRACT_DB_TABLES.Table_Person.PERSON_SYNC_STATUS + " AS person_sync_status "
+                + CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME + "." + CONTRACT_DB_TABLES.Table_Person.PERSON_SYNC_STATUS + " AS person_sync_status,\n "
+                + CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME + "." + CONTRACT_DB_TABLES.Table_Person.PERSON_REMARKS + " AS person_remarks,\n "
+                + CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME + "." + CONTRACT_DB_TABLES.Table_Person.PERSON_WEB_ID + " AS person_web_id "
                 + "FROM " + CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME
                 + " INNER JOIN " + CONTRACT_DB_TABLES.Table_GROUP.TABLE_NAME
                 + " ON " + CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME + "." + CONTRACT_DB_TABLES.Table_Person.PERSON_GROUP_ID
@@ -204,7 +252,8 @@ public class DB_Helper extends SQLiteOpenHelper {
                 + CONTRACT_DB_TABLES.Table_GROUP.TABLE_NAME + "." + CONTRACT_DB_TABLES.Table_GROUP.GROUP_PUROK + " AS person_purok, "
                 + CONTRACT_DB_TABLES.Table_GROUP.TABLE_NAME + "." + CONTRACT_DB_TABLES.Table_GROUP.GROUP_BARANGAY + " AS person_barangay, "
                 + CONTRACT_DB_TABLES.Table_GROUP.TABLE_NAME + "." + CONTRACT_DB_TABLES.Table_GROUP.GROUP_CITY + " AS person_city, "
-                + CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME + "." + CONTRACT_DB_TABLES.Table_Person.PERSON_GROUP_ID + " AS person_group_id"
+                + CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME + "." + CONTRACT_DB_TABLES.Table_Person.PERSON_GROUP_ID + " AS person_group_id, "
+                + CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME + "." + CONTRACT_DB_TABLES.Table_Person.PERSON_SYNC_STATUS + " AS person_sync_status"
                 + " FROM " + CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME
                 + " INNER JOIN " + CONTRACT_DB_TABLES.Table_GROUP.TABLE_NAME
                 + " ON " + CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME + "." + CONTRACT_DB_TABLES.Table_Person.PERSON_GROUP_ID
@@ -227,52 +276,42 @@ public class DB_Helper extends SQLiteOpenHelper {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    /*
-    public boolean isHostReachable(String serverAddress, int serverTCPport, int timeoutMS){
-        boolean connected = false;
-        Socket socket;
-        try {
-            socket = new Socket();
-            SocketAddress socketAddress = new InetSocketAddress(serverAddress, serverTCPport);
-            socket.connect(socketAddress, timeoutMS);
-            if (socket.isConnected()) {
-                connected = true;
-                socket.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            socket = null;
-        }
-        return connected;
+    public Cursor submitData(SQLiteDatabase db){
+        String query = "SELECT * "
+                + "FROM " + CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME + " WHERE "
+                + CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME + "." +CONTRACT_DB_TABLES.Table_Person.PERSON_SYNC_STATUS
+                + " = " + CONTRACT_DB_TABLES.SYNC_STATUS.SYNC_FAILED;
+        Log.d("QueryForSubmitData", query);
+        return db.rawQuery(query, null);
+
     }
 
-    public boolean isReachable() {
-        // First, check we have any sort of connectivity
-        final ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        final NetworkInfo netInfo = connMgr.getActiveNetworkInfo();
-        boolean isReachable = false;
+    public void updateSyncStatus(int person_id, int syncStatus, String syncAction, String web_id, SQLiteDatabase db){
+       /* String query = "UPDATE " + CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME
+        + " SET " + CONTRACT_DB_TABLES.Table_Person.PERSON_SYNC_STATUS + " = " + syncStatus
+        + ", " + CONTRACT_DB_TABLES.Table_Person.PERSON_SYNC_ACTION + " = '" + syncAction
+        + "', " + CONTRACT_DB_TABLES.Table_Person.PERSON_WEB_ID + " = '" + web_id + "'"
+        + " WHERE " + CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME + "." + CONTRACT_DB_TABLES.Table_Person.PERSON_ID +
+                " = " + person_id;
+        */
 
-        if (netInfo != null && netInfo.isConnected()) {
-            // Some sort of connection is open, check if server is reachable
-            try {
-                URL url = new URL("http://www.google.com");
-                //URL url = new URL("http://10.0.2.2");
-                HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
-                urlc.setRequestProperty("User-Agent", "Android Application");
-                urlc.setRequestProperty("Connection", "close");
-                urlc.setConnectTimeout(10 * 1000);
-                urlc.connect();
-                isReachable = (urlc.getResponseCode() == 200);
-            } catch (IOException e) {
-                //Log.e(TAG, e.getMessage());
-            }
-        }
+        ContentValues cv = new ContentValues();
+        cv.put(CONTRACT_DB_TABLES.Table_Person.PERSON_SYNC_STATUS, syncStatus);
+        cv.put(CONTRACT_DB_TABLES.Table_Person.PERSON_SYNC_ACTION, syncAction);
+        cv.put(CONTRACT_DB_TABLES.Table_Person.PERSON_WEB_ID, web_id);
 
-        return isReachable;
+        int result = db.update(CONTRACT_DB_TABLES.Table_Person.PERSON_TABLE_NAME, cv,
+                CONTRACT_DB_TABLES.Table_Person.PERSON_ID + " = " + person_id, null);
+        /*if(result>0){
+            Log.d("OnUpDateSyncStatus", result + "");
+        }*/
+
+        Log.d("OnUpDateSyncStatus", result + "");
     }
 
-*/
+    public Cursor runCustomQuery(String query, SQLiteDatabase db){
+        return db.rawQuery(query, null);
+    }
 
 
 }

@@ -13,6 +13,14 @@
             android:icon="@drawable/ic_add_person"
             android:title="Add New" />
     </group>
+    <item android:title="Export">
+        <menu>
+            <item
+                android:id="@+id/nav_sync_data"
+                android:icon="@drawable/ic_submit_data"
+                android:title="Sync My Data" />
+        </menu>
+    </item>
     <item android:title="Extras">
         <menu>
             <item

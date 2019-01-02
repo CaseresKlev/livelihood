@@ -45,7 +45,22 @@ public final class CONTRACT_DB_TABLES {
 
     public static  class SYNC_ACTION{
         public static final String ACTION_ADD = "add";
+        public static final String ACTION_DELETE = "delete";
         public static final String ACTION_EDIT = "edit";
+    }
+
+
+    public static class CONNECT_STATUS{
+        public static int CONNECT_ERROR = 1;
+        public static int CONNECT_SUCCESS = 0;
+    }
+
+    public static class REQUEST_CODE{
+        public static int REQUEST_CODE_DELETE = 100;
+        public static int REQUEST_CODE_EDIT = 101;
+        public static int REQUEST_SUCCESS = 1;
+        public static int REQUEST_ERROR = 0;
+        public static int REQUEST_CANCEL = -1;
     }
 
 }

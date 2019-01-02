@@ -18,6 +18,7 @@ public class MessageDialog extends DialogFragment {
     ImageView icon;
 
     String strHeader, strMessage;
+    int type;
 
 
     public MessageDialog() {
@@ -28,7 +29,9 @@ public class MessageDialog extends DialogFragment {
         Bundle args = new Bundle();
         args.putString("dialogHeader", header);
         args.putString("dialogMessage", message);
+        args.putInt("dialogType", type);
         dialog.setArguments(args);
+        dialog.setCancelable(false);
         return dialog;
     }
 
@@ -38,6 +41,7 @@ public class MessageDialog extends DialogFragment {
 
         strHeader = getArguments().getString("dialogHeader");
         strMessage = getArguments().getString("dialogMessage");
+        type = getArguments().getInt("dialogType");
         setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Light_Dialog_NoActionBar_MinWidth);
     }
 
@@ -53,6 +57,12 @@ public class MessageDialog extends DialogFragment {
         message = (TextView) view.findViewById(R.id.dialog_message);
         message.setText(strMessage);
         icon = (ImageView) view.findViewById(R.id.dialog_icon);
+        if(type==0){
+            icon.setImageResource(R.drawable.ic_information);
+        }else{
+            icon.setImageResource(R.drawable.warning);
+        }
+
         ok = (Button) view.findViewById(R.id.dialog_ok);
         ok.setOnClickListener(new View.OnClickListener() {
             @Override

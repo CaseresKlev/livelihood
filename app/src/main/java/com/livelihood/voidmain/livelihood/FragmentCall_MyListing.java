@@ -51,11 +51,12 @@ public class FragmentCall_MyListing extends Fragment {
                 String barangay = cursor.getString(cursor.getColumnIndex("person_barangay")).toString();
                 String city = cursor.getString(cursor.getColumnIndex("person_city")).toString();
                 int group_id = cursor.getInt(cursor.getColumnIndex("person_group_id"));
+                int sync_status = cursor.getInt(cursor.getColumnIndex("person_sync_status"));
                 String address = groupName + " - " + purok + ", " + barangay + ", " + city;
                 //sb.append("Address: " +cursor.getString(4)+"\n");
                 //Person p = new Person(cursor.getInt(0), cursor.getString(1).toString(), cursor.getString(3).toString(),
                     //    cursor.getInt(2));
-                Person p = new Person(p_id, name, address, group_id);
+                Person p = new Person(p_id, name, address, group_id, sync_status);
                 personList.add(p);
             }
 

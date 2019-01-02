@@ -1,5 +1,6 @@
 package com.livelihood.voidmain.livelihood;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -7,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -42,12 +44,14 @@ public class Controler_Person extends RecyclerView.Adapter {
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView mName, mAddress, txt_person_id;
+        ImageView sync;
 
         public ViewHolder(View itemView) {
             super(itemView);
             txt_person_id = (TextView) itemView.findViewById(R.id.textView_group_id);
             mName = (TextView) itemView.findViewById(R.id.textView_name);
             mAddress = (TextView) itemView.findViewById(R.id.textView_address);
+            sync = (ImageView) itemView.findViewById(R.id.imageView_sync_status);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -57,8 +61,10 @@ public class Controler_Person extends RecyclerView.Adapter {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, PersonDetails.class);
                     intent.putExtra("com.klevie.livelihood.PERSON_ID", person_id);
-                    context.startActivity(intent);
-
+                    ((Activity) context).startActivityForResult(intent, CONTRACT_DB_TABLES.REQUEST_CODE.REQUEST_CODE_DELETE);
+                    //context.startActivity(intent);
+                    //startActivityForResult(intent, CONTRACT_DB_TABLES.REQUEST_CODE.REQUEST_CODE_DELETE);
+                    //context.startActivityForresult(ntent, CONTRACT_DB_TABLES.REQUEST_CODE.REQUEST_CODE_DELETE);
                 }
             });
 
@@ -68,8 +74,17 @@ public class Controler_Person extends RecyclerView.Adapter {
             mName.setText(personList.get(position).getName());
             mAddress.setText(personList.get(position).getAddress());
             txt_person_id.setText("PERSON ID: " + personList.get(position).getPersonID());
+            if(personList.get(position).getSyncStatus()==CONTRACT_DB_TABLES.SYNC_STATUS.SYNC_SUCCESS){
+                sync.setImageResource(R.drawable.ic_check);
+            }else{
+                sync.setImageResource(R.drawable.warning);
+            }
+
             //group_id = personList.get(position).getGroupID();
         }
+
+
+
 
         //@Override
         /*public void onClick(View v) {
@@ -80,4 +95,6 @@ public class Controler_Person extends RecyclerView.Adapter {
             startActivity(intent);
         }*/
     }
+
+
 }

@@ -70,6 +70,7 @@ public class Controller_Group extends RecyclerView.Adapter {
                     Intent intent = new Intent(context, AddNew.class);
                     intent.putExtra("com.klevie.livelihood.GROUP_ID", group_id);
                     intent.putExtra("com.klevie.livelihood.USER_ID", 5001);
+                    intent.putExtra("com.klevie.livelihood.ACTION", "add");
                     context.startActivity(intent);
                 }
             });
